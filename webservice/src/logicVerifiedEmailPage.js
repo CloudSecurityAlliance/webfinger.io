@@ -46,6 +46,7 @@ export async function handleVerifiedEmailGETRequest(requestData) {
             let substitute_data = {};
             substitute_data["email_address"] = normalized_email_address;
             substitute_data["mastodon_id"] = mastodon_id_normalized;
+            substitute_data["mastodon_name"] = mastodon_id_split[0];
             substitute_data["mastodon_domain"] = mastodon_id_split[1];
             return new Response(gethtmlContentRegistration("verified-email", substitute_data), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
         }
