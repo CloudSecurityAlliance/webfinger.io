@@ -82,6 +82,15 @@ export function gethtmlContentRegistration(status, data) {
         }
 
         if (data["mastodon_id"]) {
+            new_content = htmlContent["verified-email"].replace(/MASTODON_ID/g, data["mastodon_id"]);
+            htmlContent["verified-email"] = new_content;
+        }
+        else {
+            replyContent = htmlContent["header"] + htmlContent["no-verified-email"] + htmlContent["registration"];
+            return replyContent; 
+        }
+
+        if (data["mastodon_name"]) {
             new_content = htmlContent["verified-email"].replace(/MASTODON_NAME/g, data["mastodon_name"]);
             htmlContent["verified-email"] = new_content;
         }
