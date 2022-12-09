@@ -252,6 +252,9 @@ async function handleGETRequest(requestData) {
     const webfingerReply = await handleWebfingerGETRequest(requestData);
     return webfingerReply;
   } 
+  else if (requestURL.pathname === "/favicon.ico") {
+    return Response.redirect("https://cloudsecurityalliance.org/favicon.ico", 307)
+  } 
   else if (requestURL.pathname === "/robots.txt") {
     return new Response("User-agent: * Disallow: /", {status: "200", headers: {"content-type": "text/plain"}});
   } 
