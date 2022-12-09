@@ -38,12 +38,38 @@ _dmarc IN TXT "v=DMARC1; p=reject; adkim=s; aspf=s; rua=mailto:YYY; ruf=mailto:Y
 
 ## Setting up your Javascript to use it:
 
-In the add 
+In your cloudflare worker simply add something like:
 
 ```
-"dkim_domain": "wexample.org",
-"dkim_selector": "mailchannels",
-"dkim_private_key": "<content of the file priv_key.txt>"
+"personalizations": [
+    { "to": 
+    [ 
+        { 
+            "email": data["to_email"]
+        }
+    ],
+    "dkim_domain": data["DKIM_DOMAIN"],
+    "dkim_selector": data["DKIM_SELECTOR"],
+    "dkim_private_key": data["DKIM_PRIVATE_KEY"]
+    }
+],
+```
+
+where the data dict is setup e.g.:
+
+```
+  email_data["DKIM_DOMAIN"] = DKIM_DOMAIN;
+  email_data["DKIM_SELECTOR"] = DKIM_SELECTOR;
+  email_data["DKIM_PRIVATE_KEY"] = DKIM_PRIVATE_KEY;
+```
+
+Which in turn gets the data from environmental variables, either set in the web UI for Cloudflare workers, or in wrangler.toml for example:
+
+```
+[env.production.vars]
+DKIM_DOMAIN = "main domain"
+DKIM_SELECTOR = "selector name"
+DKIM_PRIVATE_KEY = "private txt key"
 ```
 
 And you should be good to go.
