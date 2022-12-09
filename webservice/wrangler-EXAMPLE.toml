@@ -1,0 +1,21 @@
+name = "testing"
+main = "src/index.js"
+compatibility_date = "2022-12-06"
+
+
+[env.production]
+name = "webfingerio-prod-new"
+vars = { ENVIRONMENT = "production" }
+kv_namespaces = [
+    {binding = "webfingerio_prod_auth", id = "EXAMPLE KV ID"},
+    {binding = "webfingerio_prod_data", id = "EXAMPLE KV ID"}
+]
+routes = [
+  "webfinger.io/",
+  "webfinger.io/robots.txt",
+  "webfinger.io/.well-known/security.txt",
+  "webfinger.io/.well-known/webfinger*",
+  "webfinger.io/apiv1/processing*",
+  "webfinger.io/apiv1/confirmation*",
+  "webfinger.io/testing*"
+]
