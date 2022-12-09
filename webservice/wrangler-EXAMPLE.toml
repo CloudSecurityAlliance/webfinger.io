@@ -15,5 +15,5 @@ routes = [
   "webfinger.io/favicon.ico",
   "webfinger.io/robots.txt",
   "webfinger.io/.well-known/*",
-  "webfinger.io/apiv1/*",
+  "webfinger.io/apiv1/*"
 ]
