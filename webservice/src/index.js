@@ -154,11 +154,16 @@ async function readProcessingRequestBody(request) {
   email_data = {};
   email_data["domain"] = "webfinger.io";
   email_data["to_email"] = request["email_address"];
-  email_data["from"] = "noreply@mailchannels.webfinger.io";
+  email_data["from"] = "noreply@webfinger.io";
   email_data["from_name"] = "webfinger.io Email Verification Service";
   email_data["reply-to"] = "admin@webfinger.io";
   email_data["reply-to_name"] = "webfinger.io Email Verification Admin";
   email_data["subject"] = "webfinger.io Email verification";
+  // These env variables need to be set in wrangler.toml
+  // See docs.webfinger.io/DKIM-setup.md for setup details
+  email_data["DKIM_DOMAIN"] = DKIM_DOMAIN;
+  email_data["DKIM_SELECTOR"] = DKIM_SELECTOR;
+  email_data["DKIM_PRIVATE_KEY"] = DKIM_PRIVATE_KEY;
 
   user_data = {};
   // We always have a uuid and email

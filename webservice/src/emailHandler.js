@@ -22,7 +22,10 @@ export async function handleEmail(data, email_content_data) {
                     { 
                         "email": data["to_email"]
                     }
-                ]
+                ],
+                "dkim_domain": data["DKIM_DOMAIN"],
+                "dkim_selector": data["DKIM_SELECTOR"],
+                "dkim_private_key": data["DKIM_PRIVATE_KEY"]
                 }
             ],
             "from": {

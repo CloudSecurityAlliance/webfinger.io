@@ -5,15 +5,25 @@ compatibility_date = "2022-12-06"
 
 [env.production]
 name = "webfingerio-prod-new"
-vars = { ENVIRONMENT = "production" }
+
 kv_namespaces = [
     {binding = "webfingerio_prod_auth", id = "EXAMPLE KV ID"},
     {binding = "webfingerio_prod_data", id = "EXAMPLE KV ID"}
 ]
+
 routes = [
   "webfinger.io/",
   "webfinger.io/favicon.ico",
   "webfinger.io/robots.txt",
   "webfinger.io/.well-known/*",
-  "webfinger.io/apiv1/*"
+  "webfinger.io/verified-email/*",
+  "webfinger.io/apiv1/*",
 ]
+
+[env.production.vars]
+ENVIRONMENT = "production"
+DKIM_DOMAIN = "main domain"
+DKIM_SELECTOR = "selector name"
+DKIM_PRIVATE_KEY = "private txt key"
+
+
