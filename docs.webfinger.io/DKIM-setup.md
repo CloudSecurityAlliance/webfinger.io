@@ -68,8 +68,8 @@ Which in turn gets the data from environmental variables, either set in the web 
 ```
 [env.production.vars]
 DKIM_DOMAIN = "main domain"
-DKIM_SELECTOR = "selector name"
-DKIM_PRIVATE_KEY = "private txt key"
+DKIM_SELECTOR = "selectorname"
+DKIM_PRIVATE_KEY = "priv_key.txt material goes here"
 ```
 
 And you should be good to go.
