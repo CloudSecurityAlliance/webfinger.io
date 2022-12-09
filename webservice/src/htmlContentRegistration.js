@@ -25,7 +25,7 @@ export function gethtmlContentRegistration(status, data) {
     `;
 
     htmlContent["verified-email"] = `
-    <a rel="me" href="https://mastodon.social/@MASTODON_ID">Mastodon</a>
+    <a rel="me" href="https://MASTODON_DOMAIN/@MASTODON_ID">Mastodon</a>
 
     <p>EMAIL_ADDRESS has been verified by webfinger.io and is linked to MASTODON_ID.</p>
 
@@ -83,6 +83,15 @@ export function gethtmlContentRegistration(status, data) {
 
         if (data["mastodon_id"]) {
             new_content = htmlContent["verified-email"].replace(/MASTODON_ID/g, data["mastodon_id"]);
+            htmlContent["verified-email"] = new_content;
+        }
+        else {
+            replyContent = htmlContent["header"] + htmlContent["no-verified-email"] + htmlContent["registration"];
+            return replyContent; 
+        }
+
+        if (data["mastodon_domain"]) {
+            new_content = htmlContent["verified-email"].replace(/MASTODON_DOMAIN/g, data["mastodon_domain"]);
             htmlContent["verified-email"] = new_content;
             return htmlContent["header"] + htmlContent["verified-email"] + htmlContent["registration"];
         } 
