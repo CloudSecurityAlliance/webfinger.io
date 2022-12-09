@@ -32,6 +32,7 @@ import { getemailContentProcessing } from "./emailContentProcessing.js"
 import { handleConfirmationGETRequest } from "./logicConfirmation.js"
 import { readConfirmationRequestBodyPOST } from "./logicConfirmation.js"
 
+import { handleVerifiedEmailGETRequest } from "./logicVerifiedEmailPage.js"
 
 // Processing email handler
 import { handleEmail } from "./emailHandler.js"
@@ -254,6 +255,11 @@ async function handleGETRequest(requestData) {
   } 
   else if (requestURL.pathname === "/favicon.ico") {
     return Response.redirect("https://cloudsecurityalliance.org/favicon.ico", 307)
+  } 
+  // serve a /verified-email/ page
+  else if (requestURL.pathname.startsWith("/verified-email/")) {
+    replyBody = await handleVerifiedEmailGETRequest(requestURL.pathname);
+    return replyBody;
   } 
   else if (requestURL.pathname === "/robots.txt") {
     return new Response("User-agent: * Disallow: /", {status: "200", headers: {"content-type": "text/plain"}});
