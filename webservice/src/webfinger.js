@@ -25,10 +25,11 @@ export async function handleWebfingerGETRequest(requestDATA) {
     if (queryNormalized === false) {
         return new Response("ERROR: bad email format", {status: "404"});
     }
-  
+
+    // But now we need to handle the webfinger.io case:
     // split here to make logic easier, like checking for bocked domains longer term
     // Use the original query, because it might need to contain dots for e.g. domain names
-    emailArray = queryNormalized.split("@");
+    emailArray = query.split("@");
     emailquery = emailArray[0];
     emaildomain = emailArray[1];
   
@@ -38,19 +39,16 @@ export async function handleWebfingerGETRequest(requestDATA) {
         // in accounts
         //
         if (emailquery.includes("_")) {
-            email = emailquery.replace(/_([^_]*)$/, "@" + '$1');
+            queryNormalized = emailquery.replace(/_([^_]*)$/, "@" + '$1');
             //return new Response("EMAIL DEBUG: " + email, {status: "200"});
         } 
-        // this is inefficient but readable
+        // no underscore, so ignore for now
         else {
             return new Response("ERROR: bad @webfinger.io query format", {status: "404"});
         }
     }
-    // A redirected query to us, we should add a check for domain queries?
-    else {
-        email = emailquery + "@" + emaildomain
-    }
-  
+    // A redirected query to us, is the other option, and that's handled via just queryNormalized not ending in webfinger.io
+
     // KV STORE KEY
     KVkeyArray = queryNormalized.split("@");
     KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
@@ -69,7 +67,7 @@ export async function handleWebfingerGETRequest(requestDATA) {
         mastodon_id_raw = emailRecord["mastodon_id"].slice(1);
         mastodon_id_normalized = strictNormalizeEmailAddress(mastodon_id_raw);
         if (mastodon_id_normalized === false) {
-            return new Response("NOT FOUND", {status: "404"});
+            return new Response("NOT FOUND" + JSON.stringify(emailRecord), {status: "404"});
         }
     }
     else {
