@@ -12,45 +12,66 @@ export function gethtmlContentRegistration(status, data) {
     let replyContent = "";
     htmlContent["header"] = `
     <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="utf-8">
     <title>webfinger.io (a Cloud Security Alliance Research beta)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://assetswebfingerio.pages.dev/favicon.ico"/>
+    <link rel="stylesheet" href="https://assetswebfingerio.pages.dev/fonts.googleapis.com-css-family-Roboto-300-300italic-700-700italic.txt"/>
+    <link rel="stylesheet" href="https://assetswebfingerio.pages.dev/normalize.css"/>
+    <link rel="stylesheet" href="https://assetswebfingerio.pages.dev/milligram.min.css"/>
+    <link rel="stylesheet" href="https://assetswebfingerio.pages.dev/main.css"/>
+    </head>
     <body>
+    <main>
+    <section class="container" id="registration">
     <h1>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research beta</h1>
-    `;
 
-    htmlContent["registration"] = `    
-    <p>Simply fill out this form, you'll get a confirmation email with a link, click the link and people can verify you 
-    by searching in a Mastodon client for @yourname_domain@webfinger.io and if you point your webfinger service at 
-    webfinger.io searching for @yourname@domain will work. You can also use web page verification via 
-    https://webfinger.io/verified-email/yourname@domain</p>
     `;
 
     htmlContent["verified-email"] = `
     <a rel="me" href="https://MASTODON_DOMAIN/@MASTODON_NAME">Mastodon</a>
 
     <p>EMAIL_ADDRESS has been verified by webfinger.io and is linked to MASTODON_ID.</p>
-
     `;
 
     htmlContent["no-verified-email"] = `<p>No verified email found</p>`;
     
     htmlContent["registration"] = `
     <form action="https://` + globalDomain + `/apiv1/processing" method="post">
+    
     <label for="email_address">Email address (mandatory, name@email.tld):</label>
-    <input type="email_address" id="email_address" name="email_address"><br>
+    <input type="email" id="email_address" name="email_address">
+    
     <label for="mastodon_id">Mastodon ID (optional, @username@servername.tld):</label>
-    <input type="text" id="mastodon_id" name="mastodon_id"><br>
-    <input type="radio" name="action" value="link_mastodon_id"><strong>Link Mastodon ID (new or updated)</strong><br>
-    <input type="radio" name="action" value="block_email">Unsubscribe and block all future email<br>
-    <input type="radio" name="action" value="delete_record">Delete the record for my email address<br>
+    <input type="text" id="mastodon_id" name="mastodon_id">
+    
+    <input type="radio" id="link_mastodon_id" name="action" value="link_mastodon_id">
+    <label for="link_mastodon_id" class="label-inline"><strong>Link Mastodon ID (new or updated)</strong></label><br>
+    
+    <input type="radio" id="block_email" name="action" value="block_email">
+    <label for="block_email" class="label-inline">Unsubscribe and block all future email</label><br>
+    
+    <input type="radio" id="delete_record" name="action" value="delete_record">
+    <label for="delete_record" class="label-inline">Delete the record for my email address</label><br>
+
     <input type="submit" value="submit" name="submit">
-    
+    </form>
+
     <p>webfinger.io is a public webfinger service that lets you link your Mastodon ID to your email address. webfinger.io
-    requires strong proof of control of the email address to prevent abuse, and to ensure only the rightful owner of the email
-    address can link a Mastodon ID to it.</p>
+    requires strong proof of control of the email address to ensure only the rightful owner of the email address can link it 
+    to a Mastodon ID.</p>
     
-    <p>People can then verify your email address is linked to your Mastodon ID by searching for the alias @username_emaildomain@webfinger.io 
-    or if you control your domain and redirect /.well-known/webfinger to https://webfinger.io/.well-known/webfinger by searching for your email
-    in the form of a Mastodon ID @username@emaildomain
+    <h2>Using webfinger.io</h2>
+
+    <ul>
+    <li>Search field: @yourname_domain@webfinger.io</li>
+    <li>If you redirect your webfinger to us: @yourname@domain</li>
+    <li>Profile metadata verification: simply add a link like https://webfinger.io/verified-email/yourname@domain</li>
+    </ul>
+
+    <p>To let people search for your email, simply redirect https://yourdomain/.well-known/webfinger to https://webfinger.io/.well-known/webfinger and it'll work.</p>
     
     <h2>Security and anti-abuse</h2>
     
@@ -63,7 +84,8 @@ export function gethtmlContentRegistration(status, data) {
     <p>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research beta. It is available in GitHub at
     <a href="https://github.com/cloudsecurityalliance/webfinger.io">https://github.com/cloudsecurityalliance/webfinger.io</a>.</p>
     
-    </form>
+    </section>
+    </main>
     </body>
     `;
     if (status == "success") {
