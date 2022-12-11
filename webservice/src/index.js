@@ -8,7 +8,7 @@
 // wrangler publish --env production  
 
 // Change to variable?
-let globalDomain = "testing.webfinger.io";
+let globalDomain = "webfinger.io";
 
 // npm install uuid
 import { v4 as uuidv4 } from 'uuid';
@@ -18,6 +18,7 @@ import { getsecuritytxt } from "./securitytxt.js";
 
 // normalize stuff
 import { strictNormalizeWebData } from "./strictNormalize.js";
+import { strictNormalizeEmailAddress } from "./strictNormalize.js";
 
 // registration content
 import { gethtmlContentRegistration } from "./htmlContentRegistration.js";
@@ -40,7 +41,7 @@ import { handleEmail } from "./emailHandler.js"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Main POST body
 // test via:
-// wget --post-data "email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=@iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7" https://testing.webfinger.io/testing
+// wget --post-data "email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=@iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7" https://webfinger.io/
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 async function readPOSTRequestBody(request) {
   
@@ -68,7 +69,7 @@ async function readPOSTRequestBody(request) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Main GET body
 // test via:
-// wget -v "https://testing.webfinger.io/testing?email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7"
+// wget -v "https://webfinger.io/testing?email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 async function readGETRequestParams(searchParams) {
   paramData = {};
@@ -286,10 +287,17 @@ async function handleGETRequest(requestData) {
     replyBody = handleConfirmationGETRequest(reqBody);
     return replyBody;
 	} 
+  // Redirect root email requests to the verified-email page
+  else if (requestURL.pathname.includes("@")) {
+    test_email = requestURL.pathname.slice(1);
+    if (strictNormalizeEmailAddress(test_email)) {
+      return Response.redirect("https://webfinger.io/verified-email/" + test_email, 307)
+    } 
+	} 
   ////////////////////////////////////////////////////
   // Testing
   // test via
-  // wget -v "https://testing.webfinger.io/testing?email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7"
+  // wget -v "https://webfinger.io/testing?email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7"
   else if (requestURL.pathname === "/testing") {
     requestURL = new URL(requestData.url);
     const { searchParams } = new URL(requestData.url)

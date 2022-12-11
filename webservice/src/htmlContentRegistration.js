@@ -68,7 +68,7 @@ export function gethtmlContentRegistration(status, data) {
     <ul>
     <li>Search field: @yourname_domain@webfinger.io</li>
     <li>If you redirect your webfinger to us: @yourname@domain</li>
-    <li>Profile metadata verification: simply add a link like https://webfinger.io/verified-email/yourname@domain</li>
+    <li>Profile metadata verification: simply add a link like https://webfinger.io/yourname@domain</li>
     </ul>
 
     <p>To let people search for your email, simply redirect https://yourdomain/.well-known/webfinger to https://webfinger.io/.well-known/webfinger and it'll work.</p>
