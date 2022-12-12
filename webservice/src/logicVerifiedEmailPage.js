@@ -7,13 +7,20 @@ import { strictNormalizeEmailAddress } from "./strictNormalize.js";
 export async function handleVerifiedEmailGETRequest(requestData) {
 
     // Takes a URL path starting with /verified-email/EMAIL_ADDRESS
+    // or /EMAIL_ADDRESS
+    // TODO: add support for _ instead of @?
 
-    let email_address = requestData.replace(/^\/verified-email\//,"");
+    if (requestURL.pathname.startsWith("/verified-email/")) {
+        let email_address = requestData.replace(/^\/verified-email\//,"");
+    }
+    else {
+        email_address = requestURL.pathname.slice(1);
+    }
 
     let normalized_email_address = strictNormalizeEmailAddress(email_address);
 
     if (normalized_email_address === false) {
-        return new Response(gethtmlContentRegistration("no-verified-email"), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
+        return new Response(gethtmlContentRegistration("ERROR: incorrect email address format"), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
     }
 
 	// KV STORE get auth key

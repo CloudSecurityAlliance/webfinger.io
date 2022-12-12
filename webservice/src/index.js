@@ -231,10 +231,10 @@ async function handlePOSTRequest(requestData) {
 
   ///////////////////////////////////////
   // Testing
-  else if (requestURL.pathname === "/testing") {
-		const reqBody = await readPOSTRequestBody(requestData);
-    return new Response(JSON.stringify(reqBody), {status: "200", headers: {"content-type": "text/plain"}});
-	} 
+  //else if (requestURL.pathname === "/testing") {
+	//	const reqBody = await readPOSTRequestBody(requestData);
+  //  return new Response(JSON.stringify(reqBody), {status: "200", headers: {"content-type": "text/plain"}});
+	//} 
   else {
     return Response.redirect("https://webfinger.io/", 307)
   }
@@ -287,23 +287,20 @@ async function handleGETRequest(requestData) {
     replyBody = handleConfirmationGETRequest(reqBody);
     return replyBody;
 	} 
-  // Redirect root email requests to the verified-email page
   else if (requestURL.pathname.includes("@")) {
-    test_email = requestURL.pathname.slice(1);
-    if (strictNormalizeEmailAddress(test_email)) {
-      return Response.redirect("https://webfinger.io/verified-email/" + test_email, 307)
-    } 
+    replyBody = await handleVerifiedEmailGETRequest(requestURL.pathname);
+    return replyBody;
 	} 
   ////////////////////////////////////////////////////
   // Testing
   // test via
   // wget -v "https://webfinger.io/testing?email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7"
-  else if (requestURL.pathname === "/testing") {
-    requestURL = new URL(requestData.url);
-    const { searchParams } = new URL(requestData.url)
-    const reqBody = await readGETRequestParams(searchParams);
-    return new Response(JSON.stringify(reqBody), {status: "200", headers: {"content-type": "text/plain"}});
-  }
+  //else if (requestURL.pathname === "/testing") {
+  //  requestURL = new URL(requestData.url);
+  //  const { searchParams } = new URL(requestData.url)
+  //  const reqBody = await readGETRequestParams(searchParams);
+  //  return new Response(JSON.stringify(reqBody), {status: "200", headers: {"content-type": "text/plain"}});
+  //}
   ///////////////////////////////
   // We're at the end, serve a redirect to the registration page
   else {

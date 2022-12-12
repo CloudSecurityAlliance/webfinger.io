@@ -42,10 +42,10 @@ export function gethtmlContentRegistration(status, data) {
     <form action="https://` + globalDomain + `/apiv1/processing" method="post">
     
     <label for="email_address">Email address (mandatory, name@email.tld):</label>
-    <input type="email" id="email_address" name="email_address">
+    <input type="email" id="email_address" name="email_address" placeholder="username@example.org">
     
     <label for="mastodon_id">Mastodon ID (optional, @username@servername.tld):</label>
-    <input type="text" id="mastodon_id" name="mastodon_id">
+    <input type="text" id="mastodon_id" name="mastodon_id" placeholder="username@mastodon.server">
     
     <input type="radio" id="link_mastodon_id" name="action" value="link_mastodon_id">
     <label for="link_mastodon_id" class="label-inline"><strong>Link Mastodon ID (new or updated)</strong></label><br>
