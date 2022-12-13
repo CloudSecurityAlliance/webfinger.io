@@ -34,11 +34,41 @@ export function gethtmlContentRegistration(status, data) {
 
     htmlContent["verifiedemail"] = `
 
-    <p>EMAIL_ADDRESS has been verified by webfinger.io and is linked to <a rel="me" href="https://MASTODON_DOMAIN/@MASTODON_NAME">MASTODON_ID</a>.</p>
+    <p>EMAIL_ADDRESS has been verified by webfinger.io and is linked to 
+    <a rel="me" href="https://MASTODON_DOMAIN/@MASTODON_NAME">MASTODON_ID</a>.</p>
+
+    <a class="button" href="https://webfinger.io/">Get your email address and Mastodon ID verified</a>
+
+    <p>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research beta. It is available in GitHub at
+    <a href="https://github.com/cloudsecurityalliance/webfinger.io">https://github.com/cloudsecurityalliance/webfinger.io</a>.</p>
+  
+    <p>The Cloud Security Alliance privacy policy is available 
+    <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
+    </section>
+
+    </main>
+    </body>
+    </html>
+
     `;
 
     // TODO: make this more obvious and serve correctly
-    htmlContent["noverifiedemail"] = `<p>We could not verify EMAIL_ADDRESS</p>`;
+    htmlContent["noverifiedemail"] = `<p>We could not verify EMAIL_ADDRESS</p>
+    
+    <a class="button" href="https://webfinger.io/">Get your email address and Mastodon ID verified</a>
+
+    <p>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research beta. It is available in GitHub at
+    <a href="https://github.com/cloudsecurityalliance/webfinger.io">https://github.com/cloudsecurityalliance/webfinger.io</a>.</p>
+  
+    <p>The Cloud Security Alliance privacy policy is available 
+    <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
+    </section>
+
+    </main>
+    </body>
+    </html>
+    
+    `;
     
     htmlContent["registration"] = `
     <form action="https://` + globalDomain + `/apiv1/processing" method="post">
@@ -93,6 +123,7 @@ export function gethtmlContentRegistration(status, data) {
 
     </main>
     </body>
+    </html>
     `;
     if (status == "success") {
         replyContent = htmlContent["header"] + htmlContent["registration"];

@@ -12,8 +12,9 @@ export async function handleVerifiedEmailGETRequest(requestData) {
     let normalized_email_address = strictNormalizeEmailAddress(email_address);
 
     error_result = {};
-    error_result["email_address"] = basicEscapeHTML(email_address);
-    //(email_address);
+
+    error_result["email_address"] = encodeURIComponent(email_address);
+    // basicEscapeHTML escape @ and some other stuff we want
 
     if (normalized_email_address === false) {
         return new Response(gethtmlContentRegistration("noverifiedemail", error_result), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});

@@ -48,6 +48,7 @@ export function gethtmlContentConfirmation(status, data) {
     </section>
 
     </body>
+    </html>
     `;
 
     html_content_reply["badinput"] = `
