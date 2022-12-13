@@ -31,6 +31,16 @@ export function strictNormalizeUUID(uuid_value) {
 	}
 }
 
+export function basicEscapeHTML(unsafe) {
+	return unsafe
+	.replace(/&/g, "&amp;")
+	.replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
 // filename: ./src/strictNormalize.js
 export function strictNormalizeWebData(requestdata) {
 	// returns a normalized data structre or false if things are wrong/missing
@@ -82,7 +92,13 @@ export function strictNormalizeWebData(requestdata) {
 				}
 			}
 			else {
-				normalized_data["mastodon_id"] = false;
+				mastodon_id_normalized = strictNormalizeEmailAddress(requestdata["mastodon_id"]);
+				if (mastodon_id_normalized === false) {
+					normalized_data["mastodon_id"] = false;
+				}
+				else {
+					normalized_data["mastodon_id"] = "@" + mastodon_id_normalized;
+				}
 			}
 		}
 		else {

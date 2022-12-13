@@ -27,7 +27,6 @@ export function gethtmlContentConfirmation(status, data) {
     <main>
     <section class="container" id="registration">
     <h1>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research beta</h1>
-
     `
 
     html_content_reply["echovariables"] = `
@@ -40,36 +39,58 @@ export function gethtmlContentConfirmation(status, data) {
     <input type="hidden" name="action" value="ACTION_NAME" checked="checked">
     <input type="hidden" id="token" name="token" value="TOKEN" readonly>
     <input type="submit" value="submit" name="submit">
-    </section>
     </form>
+    </section>
+
+    <section class="container" id="privacy">
+    The Cloud Security Alliance privacy policy is available 
+    <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.
+    </section>
+
     </body>
     `;
 
     html_content_reply["badinput"] = `
-We cannot process your request at this time, please try again later.
-Please check that your email and Mastodon ID were entered correctly.
+<p>We cannot process your request at this time, please try again later.
+Please check that your email and Mastodon ID were entered correctly.</p>
+
+<p>The Cloud Security Alliance privacy policy is available 
+<a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
 </section>
+
 </body>
 </html>
 `;
 
     html_content_reply["link_mastodon_id"] = `
-We have processed your request to link MASTODON_ID to EMAIL_ADDRESS. 
+<p>We have processed your request to link MASTODON_ID to EMAIL_ADDRESS.</p>
+
+<p>The Cloud Security Alliance privacy policy is available 
+<a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
 </section>
+
 </body>
 </html>
 `;
 
     html_content_reply["block_email"] = `
-We have processed your request to unsubscribe and block any more email to EMAIL_ADDRESS.
+<p>We have processed your request to unsubscribe and block any more email to EMAIL_ADDRESS.</p>
+
+<p>The Cloud Security Alliance privacy policy is available 
+<a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
 </section>
+
 </body>
 </html>
 `;
 
     html_content_reply["delete_record"] = `
-We have processed your request to delete the record for EMAIL_ADDRESS.
+<p>We have processed your request to delete the record for EMAIL_ADDRESS.</p>
+
+<p>The Cloud Security Alliance privacy policy is available 
+<a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
 </section>
+
 </body>
 </html>
 `;

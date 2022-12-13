@@ -60,7 +60,8 @@ If you have any concerns or questions just hit reply to contact our admin help.
 ` + globalDomain + ` is a Cloud Security Alliance (https://cloudsecurityalliance.org/) Research beta. 
 The Cloud Security Alliance is a not-for-profit organization promoting best practices for 
 providing security assurance within Cloud Computing. We are also working on various projects 
-within the Blockchain and Fediverse ecosystems. You can find us on Mastodon: 
+within the Blockchain and Fediverse ecosystems. The Cloud Security Alliance privacy policy is available at:
+https://cloudsecurityalliance.org/legal/privacy-notice/. You can find us on Mastodon: 
 
 @cloudsecurityalliance@cloudsecurityalliance.org
 which currently redirects to:

@@ -159,6 +159,8 @@ async function readProcessingRequestBody(request) {
   email_data["from_name"] = "webfinger.io Email Verification Service";
   email_data["reply-to"] = "admin@webfinger.io";
   email_data["reply-to_name"] = "webfinger.io Email Verification Admin";
+  // TODO: change subject to include random value (click link?) so gmail doesn't thread them
+  
   email_data["subject"] = "webfinger.io Email verification";
   // These env variables need to be set in wrangler.toml
   // See docs.webfinger.io/DKIM-setup.md for setup details
@@ -261,11 +263,6 @@ async function handleGETRequest(requestData) {
   } 
   else if (requestURL.pathname === "/favicon.ico") {
     return Response.redirect("https://cloudsecurityalliance.org/favicon.ico", 307)
-  } 
-  // serve a /verified-email/ page
-  else if (requestURL.pathname.startsWith("/verified-email/")) {
-    replyBody = await handleVerifiedEmailGETRequest(requestURL.pathname);
-    return replyBody;
   } 
   else if (requestURL.pathname === "/robots.txt") {
     return new Response("User-agent: * Disallow: /", {status: "200", headers: {"content-type": "text/plain"}});

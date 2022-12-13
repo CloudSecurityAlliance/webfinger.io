@@ -25,36 +25,52 @@ export function gethtmlContentProcessing(status, data) {
     `
 
     html_content["badinput"] = `
-    We cannot process your request at this time, please try again later.
-    Please check that your email and Mastodon ID were entered correctly.
+    <p>We cannot process your request at this time, please try again later.
+    Please check that your email and Mastodon ID were entered correctly.</p>
+
+    <p>The Cloud Security Alliance privacy policy is available 
+    <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
     </section>
+
     </body>
     </html>
     `;
 
     html_content["link_mastodon_id"] = `
-    We have processed your request to link MASTODON_ID to EMAIL_ADDRESS, you should check 
+    <p>We have processed your request to link MASTODON_ID to EMAIL_ADDRESS, you should check 
     for an email shortly, please check your spam folders if it doesn't show up. 
-    It will be valid for one hour, and then the link expires.
+    It will be valid for one hour, and then the link expires.</p>
+
+    <p>The Cloud Security Alliance privacy policy is available 
+    <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
     </section>
+
     </body>
     </html>
     `;
 
     html_content["block_email"] = `
-    We have processed your request to unsubscribe and block any more email to EMAIL_ADDRESS. 
+    <p>We have processed your request to unsubscribe and block any more email to EMAIL_ADDRESS. 
     In order to prevent abuse we've sent an email with a confirmation link, 
     please check your spam folders if it doesn't show up. It will be valid 
-    for one hour, and then the link expires.
+    for one hour, and then the link expires.</p>
+
+    <p>The Cloud Security Alliance privacy policy is available 
+    <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
     </section>
+
     </body>
     </html>
     `;
     html_content["delete_record"] = `
-    We have processed your request to delete the record for EMAIL_ADDRESS, you should check for 
+    <p>We have processed your request to delete the record for EMAIL_ADDRESS, you should check for 
     an email shortly, please check your spam folders if it doesn't show up. It will be valid 
-    for one hour, and then the link expires.
+    for one hour, and then the link expires.</p>
+
+    <p>The Cloud Security Alliance privacy policy is available 
+    <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
     </section>
+    
     </body>
     </html>
     `;
