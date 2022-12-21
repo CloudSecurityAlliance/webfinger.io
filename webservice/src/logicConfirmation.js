@@ -39,7 +39,7 @@ export async function readConfirmationRequestBodyPOST(requestData) {
 	
 	// KV STORE get auth key
 	KVkeyArray = requestData["email_address"].split("@");
-	KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
+	KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
 	const KVauthResult = await webfingerio_prod_auth.get(KVkeyValue);
 
 	// null means no record means no key so throw an error now
@@ -58,7 +58,7 @@ export async function readConfirmationRequestBodyPOST(requestData) {
 			KVdata["block_email"] = "No";
 			KVdataJSONString = JSON.stringify(KVdata);
 			KVkeyArray = requestData["email_address"].split("@");
-			KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
+			KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
 			await webfingerio_prod_data.put(KVkeyValue, KVdataJSONString);
 			await webfingerio_prod_auth.delete(KVkeyValue);
 			return new Response(gethtmlContentConfirmation("link_mastodon_id", requestData), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
@@ -67,14 +67,14 @@ export async function readConfirmationRequestBodyPOST(requestData) {
 			KVdata["block_email"] = "Yes";
 			KVdataJSONString = JSON.stringify(KVdata);
 			KVkeyArray = requestData["email_address"].split("@");
-			KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
+			KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
 			await webfingerio_prod_data.put(KVkeyValue, KVdataJSONString);
 			await webfingerio_prod_auth.delete(KVkeyValue);	
 			return new Response(gethtmlContentConfirmation("block_email", requestData), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
 		}
 		else if (requestData["action"] == "delete_record") {
 			KVkeyArray = requestData["email_address"].split("@");
-			KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
+			KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
 			await webfingerio_prod_data.delete(KVkeyValue);
 			await webfingerio_prod_auth.delete(KVkeyValue);
 			return new Response(gethtmlContentConfirmation("delete_record", requestData), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});

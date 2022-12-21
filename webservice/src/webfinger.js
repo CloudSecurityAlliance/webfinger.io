@@ -51,7 +51,7 @@ export async function handleWebfingerGETRequest(requestDATA) {
 
     // KV STORE KEY
     KVkeyArray = queryNormalized.split("@");
-    KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
+    KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
     const KVresult = await webfingerio_prod_data.get(KVkeyValue);
   
     // if that failed try the username@webfinger.io lookup

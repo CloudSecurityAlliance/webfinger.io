@@ -93,8 +93,12 @@ async function readGETRequestParams(searchParams) {
 
 
 async function readProcessingRequestBody(request) {
-  //return new Response(JSON.stringify(request), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-  
+  // TODO: UPDATE LOGIC
+
+  // if unsubscribe or delete requires email address
+
+  // else if need mastodon ID and at least one of email/github/etc.
+
   // error handling first
   if (request["action"] === false) {
     return new Response("ERROR: action is false", {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
@@ -104,7 +108,7 @@ async function readProcessingRequestBody(request) {
   }
   else if (request["action"] === "link_mastodon_id") {
     if (request["mastodon_id"] === false) {
-      return new Response("ERROR: Mastodon ID is false", {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
+      return new Response("ERROR: Mastodon ID is false " + JSON.stringify(request), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
     }
   }
 
@@ -112,7 +116,7 @@ async function readProcessingRequestBody(request) {
   block_email = "No";
   
   KVkeyArray = request["email_address"].split("@");
-  KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
+  KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
   const KVDataResult = await webfingerio_prod_data.get(KVkeyValue);
   // remember if no record it returns null, so if it exists we have a record
   if (KVDataResult) {
@@ -125,7 +129,7 @@ async function readProcessingRequestBody(request) {
 
   // KV STORE KEY
   KVkeyArray = request["email_address"].split("@");
-  KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
+  KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
   const KVauthresult = await webfingerio_prod_auth.get(KVkeyArray);
 
   // if we find an auth record that means we have a unique key already set (which expires after one hour) so set to no email
@@ -148,7 +152,7 @@ async function readProcessingRequestBody(request) {
   if (block_email == "No") {
     // KV STORE KEY
     KVkeyArray = request["email_address"].split("@");
-    KVkeyValue = KVkeyArray[1] + ":" + KVkeyArray[0]
+    KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
     await webfingerio_prod_auth.put(KVkeyValue, KVauthdataJSONString, {expirationTtl: 3600});
   }
   // TODO: ENV VRIABLES FROM/REPLYTO
@@ -271,7 +275,13 @@ async function handleGETRequest(requestData) {
 		return new Response(getsecuritytxt(), {status: "200", headers: {"content-type": "text/plain"}});
 	} 
   else if (requestURL.pathname === "/") {
-    htmlContent = gethtmlContentRegistration("success");
+    htmlContent = gethtmlContentRegistration("registration");
+    return new Response(htmlContent, {status: "200", headers: {'content-type': 'text/html;charset=UTF-8'}});
+	} 
+  else if (requestURL.pathname === "/new") {
+    let initial_data = {};
+    initial_data["uuid"] = uuidv4();
+    htmlContent = gethtmlContentRegistration("newregistration", initial_data);
     return new Response(htmlContent, {status: "200", headers: {'content-type': 'text/html;charset=UTF-8'}});
 	} 
   else if (requestURL.pathname === "/apiv1/processing") {
@@ -284,10 +294,35 @@ async function handleGETRequest(requestData) {
     replyBody = handleConfirmationGETRequest(reqBody);
     return replyBody;
 	} 
+  // startsWith @ means twitter
+  else if (requestURL.pathname.startsWith("/@")) {
+    return new Response("Twitter account", {status: "200", headers: {"content-type": "text/plain"}});
+    //replyBody = await handleVerifiedEmailGETRequest(requestURL.pathname);
+    //return replyBody;
+	} 
+  // an @ in it means it's an email
   else if (requestURL.pathname.includes("@")) {
     replyBody = await handleVerifiedEmailGETRequest(requestURL.pathname);
     return replyBody;
 	} 
+  // /GitHub/*
+  // /u/* reddit
+  // /LinkedIn/*
+  // /HackerNews/*
+  // /Instagram/*
+  // /TikTok/*
+  // /FaceBook/*
+  // /YouTube/*
+  // /WhatsApp/*
+  // /WeChat/*
+  // /dns/*
+  // 
+  // Things we explicitly will not support:
+  // Phone numbers
+  // Physical addresses
+  // Gov ID numbers
+  // Because PII concerns, and we can't verify them safely
+  // 
   ////////////////////////////////////////////////////
   // Testing
   // test via
