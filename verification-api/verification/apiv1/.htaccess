@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule validation validation.php [L]
+RewriteRule echo echo.php [L]
