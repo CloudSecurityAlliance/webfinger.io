@@ -57,7 +57,7 @@ If you have any concerns or questions just hit reply to contact our admin help.
     
     email_content["footer"] = `
 \n\n
-` + globalDomain + ` is a Cloud Security Alliance (https://cloudsecurityalliance.org/) Research beta. 
+` + globalDomain + ` is a Cloud Security Alliance (https://cloudsecurityalliance.org/) Research project. 
 The Cloud Security Alliance is a not-for-profit organization promoting best practices for 
 providing security assurance within Cloud Computing. We are also working on various projects 
 within the Blockchain and Fediverse ecosystems. The Cloud Security Alliance privacy policy is available at:

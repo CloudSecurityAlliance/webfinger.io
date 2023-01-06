@@ -15,7 +15,7 @@ export function gethtmlContentConfirmation(status, data) {
     <html lang="en">
     <head>
     <meta charset="utf-8">
-    <title>webfinger.io (a Cloud Security Alliance Research beta)</title>
+    <title>webfinger.io (a Cloud Security Alliance Research project)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://assetswebfingerio.pages.dev/favicon.ico"/>
     <link rel="stylesheet" href="https://assetswebfingerio.pages.dev/fonts.googleapis.com-css-family-Roboto-300-300italic-700-700italic.txt"/>
@@ -26,7 +26,7 @@ export function gethtmlContentConfirmation(status, data) {
     <body>
     <main>
     <section class="container" id="registration">
-    <h1>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research beta</h1>
+    <h3>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research project</h3>
     `
 
     html_content_reply["echovariables"] = `
@@ -64,7 +64,7 @@ Please check that your email and Mastodon ID were entered correctly.</p>
 `;
 
     html_content_reply["link_mastodon_id"] = `
-<p>We have processed your request to link MASTODON_ID to EMAIL_ADDRESS.</p>
+<p>We have processed your request to link MASTODON_ID to <a href="https://webfinger.io/EMAIL_ADDRESS">EMAIL_ADDRESS</a>. You can test it by clicking on your email address</p>
 
 <p>The Cloud Security Alliance privacy policy is available 
 <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>

@@ -21,7 +21,7 @@ Simple create a page rule:
 
 The service is split up into different subdomains to make securing and serving it from different services and levels easier. webfinger.io currently relies upon email based confirmation of a normalized email address (e.g. we remove +stuff and dots) which provides strong proof of control. We do not currently confirm Mastodon ID's are owned by the user, this is planned for the future
 
-### register
+### registration
 
 webfinger.io frontpage and entry form, passes POST request to processing
 
@@ -31,8 +31,12 @@ processing script for entry form, takes POST request, checks if email Block is o
 
 ### confirmation
 
-confirmation script takes GET request with action, email, key and optional Mastodon ID (if registering one), presents user with a confirmation screen, if they hit submit it sends a POST request to itself and does the action specified and clears the auth record
+confirmation script takes a GET request with action, email, key and optional Mastodon ID (if registering one) for email processing, presents user with a confirmation screen, if they hit submit it sends a POST request to itself and does the action specified and clears the auth record. Also handles POST requests directly for social media via the verification API.
 
 ### webfinger
 
 webfinger script that serves requests from KV store, please note it normalizes outgoing emails and Mastodon ID's for safety and reliability
+
+## Validation API
+
+PHP script to run the validation (is Mastodon ID X in web page Y basically)

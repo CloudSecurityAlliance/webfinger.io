@@ -18,7 +18,7 @@ import { getsecuritytxt } from "./securitytxt.js";
 
 // normalize stuff
 import { strictNormalizeWebData } from "./strictNormalize.js";
-import { strictNormalizeEmailAddress } from "./strictNormalize.js";
+//import { strictNormalizeEmailAddress } from "./strictNormalize.js";
 
 // registration content
 import { gethtmlContentRegistration } from "./htmlContentRegistration.js";
@@ -27,16 +27,27 @@ import { gethtmlContentRegistration } from "./htmlContentRegistration.js";
 import { handleWebfingerGETRequest } from "./webfinger.js";
 
 // Processing content email/html
-import { gethtmlContentProcessing } from "./htmlContentProcessing.js"
-import { getemailContentProcessing } from "./emailContentProcessing.js"
+//import { gethtmlContentProcessing } from "./htmlContentProcessing.js"
+//import { getemailContentProcessing } from "./emailContentProcessing.js"
+
+import { gethtmlContentProcessingNew } from "./htmlContentProcessingNew.js"
+
+import { readProcessingRequestBodyPOST } from "./logicProcessing.js"
+
 
 import { handleConfirmationGETRequest } from "./logicConfirmation.js"
 import { readConfirmationRequestBodyPOST } from "./logicConfirmation.js"
 
-import { handleVerifiedEmailGETRequest } from "./logicVerifiedEmailPage.js"
+import { handleVerifiedEmailGETRequest } from "./logicVerifiedPage.js"
+import { handleVerifiedTwitterGETRequest } from "./logicVerifiedPage.js"
+import { handleVerifiedGitHubGETRequest } from "./logicVerifiedPage.js"
+import { handleVerifiedRedditGETRequest } from "./logicVerifiedPage.js"
+
 
 // Processing email handler
-import { handleEmail } from "./emailHandler.js"
+//import { handleEmail } from "./emailHandler.js"
+
+//import { handleVerification } from "./verificationHandler.js"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Main POST body
@@ -44,21 +55,18 @@ import { handleEmail } from "./emailHandler.js"
 // wget --post-data "email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=@iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7" https://webfinger.io/
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 async function readPOSTRequestBody(request) {
-  
   const { headers } = request;
   const contentType = headers.get('content-type') || '';
   // We're doing POST to get form results
   if (contentType.includes('form')) {
     const formData = await request.formData();
     // Get the body and populate the fields
-    postData = {};
+    let postData = {};
     for (const entry of formData.entries()) {
       // TODO: toLowercase this all
       postData[entry[0]] = entry[1];
     }
-
-    normalizedRequestData = strictNormalizeWebData(postData);
-
+    let normalizedRequestData = strictNormalizeWebData(postData);
     return normalizedRequestData;
   }
   else {
@@ -72,139 +80,36 @@ async function readPOSTRequestBody(request) {
 // wget -v "https://webfinger.io/testing?email_address=test@seifried.org&action=link_mastodon_id&mastodon_id=iuhku@iuhjkh.com&token=a43fd80f-a924-4c9c-bb53-dad1e6432de7"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 async function readGETRequestParams(searchParams) {
-  paramData = {};
+  let paramData = {};
+  if (searchParams.get("mastodon_id")) {
+    paramData["mastodon_id"] = searchParams.get("mastodon_id");
+  }
   if (searchParams.get("action")) {
-    paramData["action"] = searchParams.get("action")
+    paramData["action"] = searchParams.get("action");
   }
   if (searchParams.get("email_address")) {
-    paramData["email_address"] = searchParams.get("email_address")
+    paramData["email_address"] = searchParams.get("email_address");
   }
-  if (searchParams.get("mastodon_id")) {
-    paramData["mastodon_id"] = searchParams.get("mastodon_id")
+  if (searchParams.get("github_id")) {
+    paramData["github_id"] = searchParams.get("github_id");
+  }
+  if (searchParams.get("linkedin_id")) {
+    paramData["linkedin_id"] = searchParams.get("linkedin_id");
+  }
+  if (searchParams.get("reddit_id")) {
+    paramData["reddit_id"] = searchParams.get("reddit_id");
+  }
+  if (searchParams.get("twitter_id")) {
+    paramData["twitter_id"] = searchParams.get("twitter_id");
   }
   if (searchParams.get("token")) {
-    paramData["token"] = searchParams.get("token")
+    paramData["token"] = searchParams.get("token");
   }
   
   let normalizedRequestData = strictNormalizeWebData(paramData);
+  // TODO: ALSO INCLUDE ORIGINAL DATA
   return normalizedRequestData;
 //  return new Response(JSON.stringify(normalizedRequestData), {status: "200", headers: {"content-type": "text/plain"}});
-}
-
-
-async function readProcessingRequestBody(request) {
-  // TODO: UPDATE LOGIC
-
-  // if unsubscribe or delete requires email address
-
-  // else if need mastodon ID and at least one of email/github/etc.
-
-  // error handling first
-  if (request["action"] === false) {
-    return new Response("ERROR: action is false", {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-  }
-  else if (request["email_address"] === false) {
-    return new Response("ERROR: email is false", {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-  }
-  else if (request["action"] === "link_mastodon_id") {
-    if (request["mastodon_id"] === false) {
-      return new Response("ERROR: Mastodon ID is false " + JSON.stringify(request), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-    }
-  }
-
-  // Check if email is blocked, this simplifies the logic later on
-  block_email = "No";
-  
-  KVkeyArray = request["email_address"].split("@");
-  KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
-  const KVDataResult = await webfingerio_prod_data.get(KVkeyValue);
-  // remember if no record it returns null, so if it exists we have a record
-  if (KVDataResult) {
-    KVDataResultJSON = JSON.parse(KVDataResult);
-    if (KVDataResultJSON["block_email"] == "Yes") {
-      block_email = "Yes";
-      // return new Response(gethtmlContentProcessing("badinput"), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-    }
-  }
-
-  // KV STORE KEY
-  KVkeyArray = request["email_address"].split("@");
-  KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
-  const KVauthresult = await webfingerio_prod_auth.get(KVkeyArray);
-
-  // if we find an auth record that means we have a unique key already set (which expires after one hour) so set to no email
-  // and continue so we don't leak info
-  if (KVauthresult) {
-    block_email = "Yes";
-    return new Response(gethtmlContentProcessing("badinput"), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-  }
-
-  // Generate a unique ID
-  uuid_value = uuidv4();
-
-  KVauthdata = {};
-  KVauthdata["token"] = uuid_value;
-
-  KVauthdataJSONString = JSON.stringify(KVauthdata);
-
-  // Set a one hour time limit, this limits activity and means we don't have to do cleanup if anything fails
-  // Don't set keys if block_email = "Yes";
-  if (block_email == "No") {
-    // KV STORE KEY
-    KVkeyArray = request["email_address"].split("@");
-    KVkeyValue = "email:" + KVkeyArray[1] + ":" + KVkeyArray[0]
-    await webfingerio_prod_auth.put(KVkeyValue, KVauthdataJSONString, {expirationTtl: 3600});
-  }
-  // TODO: ENV VRIABLES FROM/REPLYTO
-  email_data = {};
-  email_data["domain"] = "webfinger.io";
-  email_data["to_email"] = request["email_address"];
-  email_data["from"] = "noreply@webfinger.io";
-  email_data["from_name"] = "webfinger.io Email Verification Service";
-  email_data["reply-to"] = "admin@webfinger.io";
-  email_data["reply-to_name"] = "webfinger.io Email Verification Admin";
-  // TODO: change subject to include random value (click link?) so gmail doesn't thread them
-  
-  email_data["subject"] = "webfinger.io Email verification";
-  // These env variables need to be set in wrangler.toml
-  // See docs.webfinger.io/DKIM-setup.md for setup details
-  email_data["DKIM_DOMAIN"] = DKIM_DOMAIN;
-  email_data["DKIM_SELECTOR"] = DKIM_SELECTOR;
-  email_data["DKIM_PRIVATE_KEY"] = DKIM_PRIVATE_KEY;
-
-  user_data = {};
-  // We always have a uuid and email
-  user_data["token"] = uuid_value;
-  // TODO: check if it fails here.
-  user_data["email_address"] = request["email_address"];
-
-  user_data["mastodon_id"] = request["mastodon_id"];
-
-  // Send the email template as specified (1 of 3)
-  if (request["action"] == "link_mastodon_id") {
-    if (block_email == "No") {
-      email_content = getemailContentProcessing("link_mastodon_id", user_data);
-      email_return_code = await handleEmail(email_data, email_content); 
-    }
-    return new Response(gethtmlContentProcessing("link_mastodon_id", user_data), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-  }
-  else if (request["action"] == "block_email") {
-    if (block_email == "No") {
-      email_content = getemailContentProcessing("block_email", user_data);      
-      email_return_code = await handleEmail(email_data, email_content); 
-    }
-    return new Response(gethtmlContentProcessing("block_email", user_data), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-  }
-  else if (request["action"] == "delete_record") {
-    if (block_email == "No") {
-      email_content = getemailContentProcessing("delete_record", user_data);  
-      email_return_code = await handleEmail(email_data, email_content);
-    }
-    return new Response(gethtmlContentProcessing("delete_record", user_data), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-  } 
-  else {
-    return new Response(gethtmlContentProcessing("badinput"), {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-  }
 }
 
 
@@ -216,23 +121,22 @@ async function readProcessingRequestBody(request) {
 // webfinger.io/apiv1/confirmation/*
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 async function handlePOSTRequest(requestData) {
-  requestURL = new URL(requestData.url);
+  let requestURL = new URL(requestData.url);
   if (requestURL.pathname === "/apiv1/processing") {
-    normalizedData = await readPOSTRequestBody(requestData);
-    replyBody = await readProcessingRequestBody(normalizedData);
-    return replyBody;
+    let normalizedData = await readPOSTRequestBody(requestData);
+    let replyBody = await readProcessingRequestBodyPOST(normalizedData);
+
+
+    let webpage_reply = gethtmlContentProcessingNew(replyBody, normalizedData);
+    return new Response(webpage_reply, {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
+    
 	} 
   else if (requestURL.pathname === "/apiv1/confirmation") {
     // TODO: take confirmation GET request and to the work
     // 
-    normalizedData = await readPOSTRequestBody(requestData);
-    replyBody = await readConfirmationRequestBodyPOST(normalizedData);
+    let normalizedData = await readPOSTRequestBody(requestData);
+    let replyBody = await readConfirmationRequestBodyPOST(normalizedData);
     return replyBody;
-
-//		reqBody = await readPOSTRequestBody(requestData);
- //   replyBody = await jj(reqBody)
-  //  return new Response(JSON.stringify(reqBody), {status: "200", headers: {"content-type": "text/plain"}});
-//    return reqBody;
 	} 
 
   ///////////////////////////////////////
@@ -290,18 +194,30 @@ async function handleGETRequest(requestData) {
   else if (requestURL.pathname === "/apiv1/confirmation") {
     requestURL = new URL(requestData.url);
     const { searchParams } = new URL(requestData.url)
+
     const reqBody = await readGETRequestParams(searchParams);
     replyBody = handleConfirmationGETRequest(reqBody);
     return replyBody;
 	} 
+  // startsWith /github/ means GitHub
+  else if (requestURL.pathname.startsWith("/github/") || requestURL.pathname.startsWith("/GitHub/") || requestURL.pathname.startsWith("/Github/")) {
+    //return new Response("GitHub account", {status: "200", headers: {"content-type": "text/plain"}});
+    replyBody = await handleVerifiedGitHubGETRequest(requestURL.pathname);
+    return replyBody;
+	} 
+  // startsWith /u/ means Reddit
+  else if (requestURL.pathname.startsWith("/u/") || requestURL.pathname.startsWith("/reddit/") ) {
+    replyBody = await handleVerifiedRedditGETRequest(requestURL.pathname);
+    return replyBody;
+  } 
   // startsWith @ means twitter
-  else if (requestURL.pathname.startsWith("/@")) {
-    return new Response("Twitter account", {status: "200", headers: {"content-type": "text/plain"}});
-    //replyBody = await handleVerifiedEmailGETRequest(requestURL.pathname);
-    //return replyBody;
+  else if (requestURL.pathname.startsWith("/@") || requestURL.pathname.startsWith("/twitter/")) {
+    //return new Response("Twitter account", {status: "200", headers: {"content-type": "text/plain"}});
+    replyBody = await handleVerifiedTwitterGETRequest(requestURL.pathname);
+    return replyBody;
 	} 
   // an @ in it means it's an email
-  else if (requestURL.pathname.includes("@")) {
+  else if (requestURL.pathname.includes("@") || requestURL.pathname.startsWith("/email/")) {
     replyBody = await handleVerifiedEmailGETRequest(requestURL.pathname);
     return replyBody;
 	} 
