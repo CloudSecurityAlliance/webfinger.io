@@ -1,6 +1,6 @@
 <?php
 
-$secret_api_token = '8294096259801751OIUHEBOWFIH3oiqfhbaf';
+$secret_api_token = 'TOKEN GOES HERE';
 
 // $postdata["API_TOKEN_VERIFICATION"]
 // secret API TOKEN, API_TOKEN_VERIFICATION on cloudflare end
