@@ -41,6 +41,7 @@ export async function readProcessingRequestBodyPOST(request) {
   KVauthdata = {};
   KVauthdata["token"] = uuid_value;
   KVauthdata["mastodon_id"] = request["mastodon_id"];
+  KVauthdata["action"] = request["action"];
 
   KVauthdataJSONString = JSON.stringify(KVauthdata);
 

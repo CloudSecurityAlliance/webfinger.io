@@ -198,8 +198,12 @@ export function gethtmlContentRegistration(status, data) {
 htmlContent["registration"] = `
 
     <form action="https://` + globalDomain + `/apiv1/processing" method="post">
+
     
-    <p><strong>Verify and link</strong> your social accounts and/or email to your Mastodon ID:</p>
+    
+    <p><strong>webfinger.io</strong> is a public webfinger and verification service that lets you link your email address and 
+    social media accounts (currently Twitter, Reddit and GitHub) to your Mastodon ID, and to display that 
+    information in your Mastodon account in a way that is trustworthy.</p>
 
     <label for="mastodon_id">Mastodon ID:</label>
     <input type="text" id="mastodon_id" name="mastodon_id" placeholder="@username@mastodon.server or mastodon.server/@username">
@@ -232,16 +236,10 @@ htmlContent["registration"] = `
     <label for="link_mastodon_id" class="label-inline">Link to my Mastodon ID</label><br>
 
     </form>
-
-    <p>webfinger.io is a public webfinger service that lets you link your Mastodon ID to your email address. webfinger.io
-    requires strong proof of control of the email address to ensure only the rightful owner of the email address can link it 
-    to a Mastodon ID.</p>
     
-    <h2>Using webfinger.io</h2>
+    <h2>Using webfinger.io with a Mastodon client</h2>
 
     <ul>
-    <li>Search field: @yourname_emaildomain@webfinger.io</li>
-    <li>If you redirect your webfinger to us: @yourname@emaildomain</li>
     <li>Mastodon profile metadata verification: simply add a link
     <ul>
         <li>Twitter: https://webfinger.io/@yourname or https://webfinger.io/twitter/yourname</li>
@@ -250,9 +248,11 @@ htmlContent["registration"] = `
         <li>Email: https://webfinger.io/yourname@emaildomain or https://webfinger.io/email/yourname@emaildomain</li>
         <li>LinkedIN: Coming soon</li>
         </ul>
+        <li>Search field: @yourname_emaildomain@webfinger.io</li>
+        <li>If you redirect your webfinger to us: people can search for you with your email address: @yourname@emaildomain</li>
     </ul>
 
-    <p>To let people search for your email, simply redirect https://youremaildomain/.well-known/webfinger to https://webfinger.io/.well-known/webfinger and it'll work.</p>
+    <p>To allow people to search for your email, simply redirect https://youremaildomain/.well-known/webfinger to https://webfinger.io/.well-known/webfinger and it'll work.</p>
     
     <h2>Security and anti-abuse</h2>
     
