@@ -10,8 +10,7 @@
 // Change to variable?
 let globalDomain = "webfinger.io";
 
-// npm install uuid
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 // Separate file to make updates easier
 import { getsecuritytxt } from "./securitytxt.js";
@@ -184,7 +183,7 @@ async function handleGETRequest(requestData) {
 	} 
   else if (requestURL.pathname === "/new") {
     let initial_data = {};
-    initial_data["uuid"] = uuidv4();
+    initial_data["uuid"] = randomUUID();
     htmlContent = gethtmlContentRegistration("newregistration", initial_data);
     return new Response(htmlContent, {status: "200", headers: {'content-type': 'text/html;charset=UTF-8'}});
 	} 

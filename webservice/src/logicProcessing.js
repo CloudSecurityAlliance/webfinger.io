@@ -1,9 +1,8 @@
+import { randomUUID } from 'crypto';
+
 // Processing content email/html
 import { gethtmlContentProcessing } from "./htmlContentProcessing.js"
 import { getemailContentProcessing } from "./emailContentProcessing.js"
-
-// npm install uuid
-import { v4 as uuidv4 } from 'uuid';
 
 // Processing email handler
 import { handleEmail } from "./emailHandler.js"
@@ -35,7 +34,7 @@ export async function readProcessingRequestBodyPOST(request) {
   }
 
   // Generate a unique ID early on, we'll need it in a few places (each record type)
-  uuid_value = uuidv4();
+  uuid_value = randomUUID();
 
   // The KV auth data is always the same, multiple records, e.g. email:, github:
   KVauthdata = {};
