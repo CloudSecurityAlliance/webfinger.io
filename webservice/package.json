@@ -9,7 +9,5 @@
     "start": "wrangler dev",
     "deploy": "wrangler publish"
   },
-  "dependencies": {
-    "uuid": "^9.0.0"
-  }
+  "dependencies": {}
 }
