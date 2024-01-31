@@ -84,7 +84,7 @@ if ($postdata["ACCOUNT_TYPE"] == 'github') {
         // 8 gigs of ram and --crash-dumps-dir= otherwise it defaults to /tmp/Crashpad which will cause it to fail
         // if another user also runs google-chrome (e.g. for testing). We do run the output through grep to get
         // the one line we care about
-        $github_description_line = shell_exec('sudo -u root ip netns exec ns1 google-chrome --no-sandbox --crash-dumps-dir=/tmp/www --disable-crash-reporter --headless --disable-gpu --enable-javascript --dump-dom https://github.com/' . $postdata["ACCOUNT_NAME"] . ' 2>/dev/null | grep "<meta name=\"description\" content=\""');
+        $github_description_line = shell_exec('sudo -u root ip netns exec ns1 google-chrome --no-sandbox --crash-dumps-dir=/tmp/www --disable-crash-reporter --headless --disable-gpu --enable-javascript --disable-3d-apis --dump-dom https://github.com/' . $postdata["ACCOUNT_NAME"] . ' 2>/dev/null | grep "<meta name=\"description\" content=\""');
 
         $regex = '/' . $postdata["MASTODON_ID"] . '/';
 
