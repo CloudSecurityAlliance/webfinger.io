@@ -1,4 +1,5 @@
-import { randomUUID } from 'crypto';
+// randomUUID() is available as a global via the Workers Web Crypto API (crypto.randomUUID()),
+// so no import is needed (importing Node's "crypto" would require the nodejs_compat flag).
 
 // Processing content email/html
 import { gethtmlContentProcessing } from "./htmlContentProcessing.js"
@@ -34,7 +35,7 @@ export async function readProcessingRequestBodyPOST(request) {
   }
 
   // Generate a unique ID early on, we'll need it in a few places (each record type)
-  uuid_value = randomUUID();
+  uuid_value = crypto.randomUUID();
 
   // The KV auth data is always the same, multiple records, e.g. email:, github:
   KVauthdata = {};
