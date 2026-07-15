@@ -39,7 +39,18 @@ export function gethtmlContentRegistration(status, data) {
       </div>
     </div>
   </div>
-   
+
+  <div class="row">
+    <div class="column">
+      <div style="border: 2px solid #c0392b; background: #fdecea; color: #611a15; padding: 1rem 1.5rem; border-radius: 4px; margin: 0 0 2rem 0;">
+        <p style="margin-bottom: 0.5rem;"><strong>&#9888; This service is stale.</strong></p>
+        <p style="margin-bottom: 0;">webfinger.io has fallen out of date and several verification features are
+        currently non-functional. A complete rewrite and overhaul is planned, but there is
+        <strong>no ETA</strong> at this time. Existing verified WebFinger lookups continue to work.</p>
+      </div>
+    </div>
+  </div>
+
 
     
 
