@@ -10,7 +10,9 @@
 // Change to variable?
 let globalDomain = "webfinger.io";
 
-import { randomUUID } from 'crypto';
+// randomUUID() is available as a global via the Workers Web Crypto API (crypto.randomUUID()),
+// so no import is needed. Importing from the Node "crypto" module would require the
+// nodejs_compat flag, which this Worker is not deployed with.
 
 // Separate file to make updates easier
 import { getsecuritytxt } from "./securitytxt.js";
@@ -183,7 +185,7 @@ async function handleGETRequest(requestData) {
 	} 
   else if (requestURL.pathname === "/new") {
     let initial_data = {};
-    initial_data["uuid"] = randomUUID();
+    initial_data["uuid"] = crypto.randomUUID();
     htmlContent = gethtmlContentRegistration("newregistration", initial_data);
     return new Response(htmlContent, {status: "200", headers: {'content-type': 'text/html;charset=UTF-8'}});
 	} 
