@@ -208,24 +208,38 @@ htmlContent["registration"] = `
     <label for="mastodon_id">Mastodon ID:</label>
     <input type="text" id="mastodon_id" name="mastodon_id" placeholder="@username@mastodon.server or mastodon.server/@username">
     
-    <label for="twitter_id">Twitter ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://twitter.com/settings/profile">"Profile"</a>):</label>
-    <input type="text" id="twitter_id" name="twitter_id" placeholder="twitter username">
+    <!-- TEMPORARILY DISABLED: social-media verification backend is down (see issue #5).
+         To re-enable, restore the original label text and remove the "disabled" attribute.
+         Original: Twitter ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://twitter.com/settings/profile">"Profile"</a>) -->
+    <label for="twitter_id">Twitter ID (temporarily unavailable):</label>
+    <input type="text" id="twitter_id" name="twitter_id" placeholder="twitter username" disabled>
 
-    <label for="github_id">GitHub ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://github.com/settings/profile">"Bio"</a>):</label>
-    <input type="text" id="github_id" name="github_id" placeholder="github username">
+    <!-- TEMPORARILY DISABLED: social-media verification backend is down (see issue #5).
+         To re-enable, restore the original label text and remove the "disabled" attribute.
+         Original: GitHub ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://github.com/settings/profile">"Bio"</a>) -->
+    <label for="github_id">GitHub ID (temporarily unavailable):</label>
+    <input type="text" id="github_id" name="github_id" placeholder="github username" disabled>
 
-    <label for="reddit_id">Reddit ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://www.reddit.com/settings/profile">"About"</a>):</label>
-    <input type="text" id="reddit_id" name="reddit_id" placeholder="reddit username">
+    <!-- TEMPORARILY DISABLED: social-media verification backend is down (see issue #5).
+         To re-enable, restore the original label text and remove the "disabled" attribute.
+         Original: Reddit ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://www.reddit.com/settings/profile">"About"</a>) -->
+    <label for="reddit_id">Reddit ID (temporarily unavailable):</label>
+    <input type="text" id="reddit_id" name="reddit_id" placeholder="reddit username" disabled>
 
-    <label for="email_address">Email address (verify by clicking a link we'll email you):</label>
-    <input type="email" id="email_address" name="email_address" placeholder="username@example.org">
+    <!-- TEMPORARILY DISABLED: email sending is down (MailChannels free Workers tier retired; see issue #5).
+         To re-enable, restore the original label text and remove the "disabled" attribute.
+         Original: Email address (verify by clicking a link we'll email you) -->
+    <label for="email_address">Email address (temporarily unavailable):</label>
+    <input type="email" id="email_address" name="email_address" placeholder="username@example.org" disabled>
 
     <input type="submit" value="submit" name="submit">
 
     <p>Click below to unsubscribe and block all email from us, or delete your email record:</p>
     
-    <input type="radio" id="block_email" name="action" value="block_email">
-    <label for="block_email" class="label-inline">Unsubscribe and block all future email</label><br>
+    <!-- TEMPORARILY DISABLED: unsubscribe requires an emailed confirmation link, and email sending is down (see issue #5).
+         Users are directed to admin@webfinger.io in the meantime. Remove "disabled" to re-enable. -->
+    <input type="radio" id="block_email" name="action" value="block_email" disabled>
+    <label for="block_email" class="label-inline">Unsubscribe and block all future email (temporarily unavailable &mdash; email admin@webfinger.io)</label><br>
     
     <!--
     <input type="radio" id="delete_record" name="action" value="delete_record">
