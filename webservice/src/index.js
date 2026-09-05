@@ -31,14 +31,6 @@ import { handleWebfingerGETRequest } from "./webfinger.js";
 //import { gethtmlContentProcessing } from "./htmlContentProcessing.js"
 //import { getemailContentProcessing } from "./emailContentProcessing.js"
 
-import { gethtmlContentProcessingNew } from "./htmlContentProcessingNew.js"
-
-import { readProcessingRequestBodyPOST } from "./logicProcessing.js"
-
-
-import { handleConfirmationGETRequest } from "./logicConfirmation.js"
-import { readConfirmationRequestBodyPOST } from "./logicConfirmation.js"
-
 import { handleVerifiedEmailGETRequest } from "./logicVerifiedPage.js"
 import { handleVerifiedTwitterGETRequest } from "./logicVerifiedPage.js"
 import { handleVerifiedGitHubGETRequest } from "./logicVerifiedPage.js"
@@ -47,8 +39,6 @@ import { handleVerifiedRedditGETRequest } from "./logicVerifiedPage.js"
 
 // Processing email handler
 //import { handleEmail } from "./emailHandler.js"
-
-//import { handleVerification } from "./verificationHandler.js"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Main POST body
@@ -115,6 +105,19 @@ async function readGETRequestParams(searchParams) {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+// Signups closed
+//
+// Social verification was retired in early 2026 (see
+// docs.webfinger.io/social-verification-retired.md) and email verification
+// depends on a provider that no longer accepts our requests. Rather than
+// accept a registration we cannot complete, we refuse it and say so.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+function getSignupsClosedResponse() {
+  let body = gethtmlContentRegistration("signupsclosed");
+  return new Response(body, {status: "503", headers: {"content-type": "text/html;charset=UTF-8"}});
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 // POST Request
 // 
 // Routes:
@@ -123,22 +126,12 @@ async function readGETRequestParams(searchParams) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 async function handlePOSTRequest(requestData) {
   let requestURL = new URL(requestData.url);
-  if (requestURL.pathname === "/apiv1/processing") {
-    let normalizedData = await readPOSTRequestBody(requestData);
-    let replyBody = await readProcessingRequestBodyPOST(normalizedData);
-
-
-    let webpage_reply = gethtmlContentProcessingNew(replyBody, normalizedData);
-    return new Response(webpage_reply, {status: "200", headers: {"content-type": "text/html;charset=UTF-8"}});
-    
-	} 
-  else if (requestURL.pathname === "/apiv1/confirmation") {
-    // TODO: take confirmation GET request and to the work
-    // 
-    let normalizedData = await readPOSTRequestBody(requestData);
-    let replyBody = await readConfirmationRequestBodyPOST(normalizedData);
-    return replyBody;
-	} 
+  // Signups are closed. Both processing and confirmation create or modify
+  // records, so both are refused rather than half-working. Lookups via
+  // /.well-known/webfinger are unaffected and continue to be served.
+  if (requestURL.pathname === "/apiv1/processing" || requestURL.pathname === "/apiv1/confirmation") {
+    return getSignupsClosedResponse();
+  }
 
   ///////////////////////////////////////
   // Testing
@@ -190,16 +183,11 @@ async function handleGETRequest(requestData) {
     return new Response(htmlContent, {status: "200", headers: {'content-type': 'text/html;charset=UTF-8'}});
 	} 
   else if (requestURL.pathname === "/apiv1/processing") {
-    return Response.redirect("https://webfinger.io/", 307)
-	} 
+    return getSignupsClosedResponse();
+  }
   else if (requestURL.pathname === "/apiv1/confirmation") {
-    requestURL = new URL(requestData.url);
-    const { searchParams } = new URL(requestData.url)
-
-    const reqBody = await readGETRequestParams(searchParams);
-    replyBody = handleConfirmationGETRequest(reqBody);
-    return replyBody;
-	} 
+    return getSignupsClosedResponse();
+  }
   // startsWith /github/ means GitHub
   else if (requestURL.pathname.startsWith("/github/") || requestURL.pathname.startsWith("/GitHub/") || requestURL.pathname.startsWith("/Github/")) {
     //return new Response("GitHub account", {status: "200", headers: {"content-type": "text/plain"}});

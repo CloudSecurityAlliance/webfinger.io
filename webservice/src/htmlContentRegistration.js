@@ -43,10 +43,12 @@ export function gethtmlContentRegistration(status, data) {
   <div class="row">
     <div class="column">
       <div style="border: 2px solid #c0392b; background: #fdecea; color: #611a15; padding: 1rem 1.5rem; border-radius: 4px; margin: 0 0 2rem 0;">
-        <p style="margin-bottom: 0.5rem;"><strong>&#9888; This service is stale.</strong></p>
-        <p style="margin-bottom: 0;">webfinger.io has fallen out of date and several verification features are
-        currently non-functional. A complete rewrite and overhaul is planned, but there is
-        <strong>no ETA</strong> at this time. Existing verified WebFinger lookups continue to work.</p>
+        <p style="margin-bottom: 0.5rem;"><strong>&#9888; New signups are turned off.</strong></p>
+        <p style="margin-bottom: 0;">webfinger.io is not accepting new registrations while we
+        re-evaluate protocol support and how the service is being used.
+        <strong>Existing WebFinger lookups continue to be served as normal</strong>, so records that
+        are already registered keep resolving. Questions are welcome via
+        <a href="https://github.com/cloudsecurityalliance/webfinger.io/issues">GitHub issues</a>.</p>
       </div>
     </div>
   </div>
@@ -216,8 +218,8 @@ htmlContent["registration"] = `
     social media accounts (currently Twitter, Reddit and GitHub) to your Mastodon ID, and to display that 
     information in your Mastodon account in a way that is trustworthy.</p>
 
-    <label for="mastodon_id">Mastodon ID:</label>
-    <input type="text" id="mastodon_id" name="mastodon_id" placeholder="@username@mastodon.server or mastodon.server/@username">
+    <label for="mastodon_id">Mastodon ID (signups turned off):</label>
+    <input type="text" id="mastodon_id" name="mastodon_id" placeholder="@username@mastodon.server or mastodon.server/@username" disabled>
     
     <!-- TEMPORARILY DISABLED: social-media verification backend is down (see issue #5).
          To re-enable, restore the original label text and remove the "disabled" attribute.
@@ -243,7 +245,7 @@ htmlContent["registration"] = `
     <label for="email_address">Email address (temporarily unavailable):</label>
     <input type="email" id="email_address" name="email_address" placeholder="username@example.org" disabled>
 
-    <input type="submit" value="submit" name="submit">
+    <input type="submit" value="submit" name="submit" disabled>
 
     <p>Click below to unsubscribe and block all email from us, or delete your email record:</p>
     
@@ -257,7 +259,7 @@ htmlContent["registration"] = `
     <label for="delete_record" class="label-inline">Delete the record for my email address</label><br>
     -->
     
-    <input type="radio" id="link_mastodon_id" name="action" value="link_mastodon_id" checked="checked">
+    <input type="radio" id="link_mastodon_id" name="action" value="link_mastodon_id" checked="checked" disabled>
     <label for="link_mastodon_id" class="label-inline">Link to my Mastodon ID</label><br>
 
     </form>
@@ -300,8 +302,37 @@ htmlContent["registration"] = `
     </html>
     `;
 
+    htmlContent["signupsclosed"] = `
+
+    <p><strong>New signups are turned off.</strong></p>
+
+    <p>webfinger.io is not currently accepting new registrations or confirmations while we
+    re-evaluate protocol support and how the service is being used.</p>
+
+    <p>Existing WebFinger lookups continue to be served, so records that are already registered
+    keep resolving normally. Nothing you have already set up has changed.</p>
+
+    <p>If you have questions, please open an issue at
+    <a href="https://github.com/cloudsecurityalliance/webfinger.io/issues">https://github.com/cloudsecurityalliance/webfinger.io/issues</a>.</p>
+
+    <p>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research project. It is available in GitHub at
+    <a href="https://github.com/cloudsecurityalliance/webfinger.io">https://github.com/cloudsecurityalliance/webfinger.io</a>.</p>
+
+    <p>The Cloud Security Alliance privacy policy is available
+    <a href="https://cloudsecurityalliance.org/legal/privacy-notice/">here</a>.</p>
+    </section>
+
+    </body>
+    </html>
+
+    `;
+
     htmlContent["newregistration"] = htmlContent["registration"];
 
+    if (status == "signupsclosed") {
+        replyContent = htmlContent["header"] + htmlContent["signupsclosed"];
+        return replyContent;
+    }
     if (status == "registration") {
         replyContent = htmlContent["header"] + htmlContent["registration"];
         return replyContent;

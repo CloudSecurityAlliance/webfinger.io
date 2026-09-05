@@ -29,11 +29,19 @@ Evaluated repositioning webfinger.io toward the AI-agent ecosystem. Declined:
       check `=== false`. Make the contract consistent.
 
 ### Operational / dependencies
-- [ ] **Social verification backend is down** (`verification-api.webfinger.io` → 521).
+- [x] **Social verification has been retired.** The backend host was decommissioned
+      in early 2026 and the `verification-api/` code has now been removed. See
+      `social-verification-retired.md` for what it did and why it is not coming
+      back in that form.
 - [ ] **Email is broken**: MailChannels retired its free Cloudflare Workers tier
       (now 401). Migrate to an authenticated email provider.
-- [ ] Currently on the registration form, social + email verification are disabled
-      and labelled "temporarily unavailable" (stop-gap).
+- [x] **Signups are closed.** With no working verification method, POSTs to
+      `/apiv1/processing` and `/apiv1/confirmation` return 503 with an explanation
+      rather than reporting a success that never happened. The front page says so.
+      `/.well-known/webfinger` lookups are unaffected and continue to be served.
+- [ ] Re-open signups once at least one verification method works again. This means
+      choosing an email provider, or implementing `rel="me"` verification natively
+      in the Worker.
 
 ### Security / hygiene
 - [ ] Secrets (DKIM private key, verification API token) are stored as **plaintext
