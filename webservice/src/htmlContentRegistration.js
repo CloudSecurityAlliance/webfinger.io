@@ -255,7 +255,7 @@ htmlContent["registration"] = `
     <label for="block_email" class="label-inline">Unsubscribe and block all future email (temporarily unavailable &mdash; email admin@webfinger.io)</label><br>
     
     <!--
-    <input type="radio" id="delete_record" name="action" value="delete_record" disabled>
+    <input type="radio" id="delete_record" name="action" value="delete_record">
     <label for="delete_record" class="label-inline">Delete the record for my email address</label><br>
     -->
     

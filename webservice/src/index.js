@@ -31,10 +31,6 @@ import { handleWebfingerGETRequest } from "./webfinger.js";
 //import { gethtmlContentProcessing } from "./htmlContentProcessing.js"
 //import { getemailContentProcessing } from "./emailContentProcessing.js"
 
-
-
-
-
 import { handleVerifiedEmailGETRequest } from "./logicVerifiedPage.js"
 import { handleVerifiedTwitterGETRequest } from "./logicVerifiedPage.js"
 import { handleVerifiedGitHubGETRequest } from "./logicVerifiedPage.js"
@@ -187,8 +183,8 @@ async function handleGETRequest(requestData) {
     return new Response(htmlContent, {status: "200", headers: {'content-type': 'text/html;charset=UTF-8'}});
 	} 
   else if (requestURL.pathname === "/apiv1/processing") {
-    return Response.redirect("https://webfinger.io/", 307)
-	} 
+    return getSignupsClosedResponse();
+  }
   else if (requestURL.pathname === "/apiv1/confirmation") {
     return getSignupsClosedResponse();
   }
