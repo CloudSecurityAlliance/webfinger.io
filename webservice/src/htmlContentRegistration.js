@@ -212,9 +212,7 @@ htmlContent["registration"] = `
     <p><strong>webfinger.io</strong> is a public WebFinger service that maps an email address to a Mastodon ID,
     so people can find you by your email address and see that the link is trustworthy.</p>
 
-    <p><strong>New registrations are closed</strong> while we evaluate how to renew and refresh this project.
-    Existing registrations will continue to work and are served as normal. Social-media verification
-    (Twitter, Reddit and GitHub) has been retired; see
+    <p>Social-media verification (Twitter, Reddit and GitHub) has been retired; see
     <a href="https://github.com/cloudsecurityalliance/webfinger.io/blob/main/docs.webfinger.io/social-verification-retired.md">the write-up</a>
     for why.</p>
 
@@ -240,12 +238,12 @@ htmlContent["registration"] = `
     
     <h2>Security and anti-abuse</h2>
     
-    <p>We've taken several steps to ensure this service is safe and respects users privacy. We only ask for the data you want us to serve 
-    (your email and Mastodon ID). We support email addresses deleting their record, and marking themselves as "do not contact". We 
-    also support administrative blocklists for both emails and Mastodon IDs, e.g. we can block "example.org" if you do not want your users 
-    to use this service, contact us at admin at webfinger.io. We also restrict the length and format of emails and Mastodon IDs to 128 
-    characters. This service runs on Cloudflare Workers and KV store, which logs data such as IP addresses
-    accessing the service. No email is currently sent, as registrations are closed.</p>
+    <p>We've taken several steps to ensure this service is safe and respects users' privacy. We only ask for the data you want us
+    to serve (your email and Mastodon ID), and we restrict the length and format of emails and Mastodon IDs to 128 characters. We
+    support administrative blocklists for both emails and Mastodon IDs &mdash; for example we can block "example.org" if you do not
+    want your users to use this service. Record deletion, "do not contact" requests and blocklist requests are all handled by emailing
+    <a href="mailto:admin@webfinger.io">admin@webfinger.io</a>. This service runs on Cloudflare Workers and KV store, which logs data
+    such as IP addresses accessing the service. No email is currently sent, as registrations are closed.</p>
     
     <p>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research project. It is available in GitHub at
     <a href="https://github.com/cloudsecurityalliance/webfinger.io">https://github.com/cloudsecurityalliance/webfinger.io</a>.</p>
