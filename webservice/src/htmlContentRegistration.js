@@ -43,11 +43,10 @@ export function gethtmlContentRegistration(status, data) {
   <div class="row">
     <div class="column">
       <div style="border: 2px solid #c0392b; background: #fdecea; color: #611a15; padding: 1rem 1.5rem; border-radius: 4px; margin: 0 0 2rem 0;">
-        <p style="margin-bottom: 0.5rem;"><strong>&#9888; New signups are turned off.</strong></p>
-        <p style="margin-bottom: 0;">webfinger.io is not accepting new registrations while we
-        re-evaluate protocol support and how the service is being used.
-        <strong>Existing WebFinger lookups continue to be served as normal</strong>, so records that
-        are already registered keep resolving. Questions are welcome via
+        <p style="margin-bottom: 0.5rem;"><strong>&#9888; No new registrations.</strong></p>
+        <p style="margin-bottom: 0;">webfinger.io is not accepting new registrations while we evaluate
+        how to renew and refresh this project. <strong>Existing registrations will continue to
+        work</strong>, and WebFinger lookups are served as normal. Questions are welcome via
         <a href="https://github.com/cloudsecurityalliance/webfinger.io/issues">GitHub issues</a>.</p>
       </div>
     </div>
@@ -214,9 +213,14 @@ htmlContent["registration"] = `
 
     
     
-    <p><strong>webfinger.io</strong> is a public webfinger and verification service that lets you link your email address and 
-    social media accounts (currently Twitter, Reddit and GitHub) to your Mastodon ID, and to display that 
-    information in your Mastodon account in a way that is trustworthy.</p>
+    <p><strong>webfinger.io</strong> is a public WebFinger service that maps an email address to a Mastodon ID,
+    so people can find you by your email address and see that the link is trustworthy.</p>
+
+    <p><strong>New registrations are closed</strong> while we evaluate how to renew and refresh this project.
+    Existing registrations will continue to work and are served as normal. Social-media verification
+    (Twitter, Reddit and GitHub) has been retired; see
+    <a href="https://github.com/cloudsecurityalliance/webfinger.io/blob/main/docs.webfinger.io/social-verification-retired.md">the write-up</a>
+    for why.</p>
 
     <label for="mastodon_id">Mastodon ID (signups turned off):</label>
     <input type="text" id="mastodon_id" name="mastodon_id" placeholder="@username@mastodon.server or mastodon.server/@username" disabled>
@@ -287,8 +291,8 @@ htmlContent["registration"] = `
     (your email and Mastodon ID). We support email addresses deleting their record, and marking themselves as "do not contact". We 
     also support administrative blocklists for both emails and Mastodon IDs, e.g. we can block "example.org" if you do not want your users 
     to use this service, contact us at admin at webfinger.io. We also restrict the length and format of emails and Mastodon IDs to 128 
-    characters. This service runs on Cloudflare Workers and KV store, and uses Mailchannels to send the emails. These providers log data such 
-    as IP addresses accessing their service and the email address of email sent.</p>
+    characters. This service runs on Cloudflare Workers and KV store, which logs data such as IP addresses
+    accessing the service. No email is currently sent, as registrations are closed.</p>
     
     <p>webfinger.io is a <a href="https://cloudsecurityalliance.org/">Cloud Security Alliance</a> Research project. It is available in GitHub at
     <a href="https://github.com/cloudsecurityalliance/webfinger.io">https://github.com/cloudsecurityalliance/webfinger.io</a>.</p>
@@ -304,13 +308,13 @@ htmlContent["registration"] = `
 
     htmlContent["signupsclosed"] = `
 
-    <p><strong>New signups are turned off.</strong></p>
+    <p><strong>No new registrations.</strong></p>
 
-    <p>webfinger.io is not currently accepting new registrations or confirmations while we
-    re-evaluate protocol support and how the service is being used.</p>
+    <p>webfinger.io is not currently accepting new registrations or confirmations while we evaluate
+    how to renew and refresh this project.</p>
 
-    <p>Existing WebFinger lookups continue to be served, so records that are already registered
-    keep resolving normally. Nothing you have already set up has changed.</p>
+    <p>Existing registrations will continue to work, and WebFinger lookups are served as normal.
+    Nothing you have already set up has changed.</p>
 
     <p>If you have questions, please open an issue at
     <a href="https://github.com/cloudsecurityalliance/webfinger.io/issues">https://github.com/cloudsecurityalliance/webfinger.io/issues</a>.</p>
