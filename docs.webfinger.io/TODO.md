@@ -44,16 +44,29 @@ Evaluated repositioning webfinger.io toward the AI-agent ecosystem. Declined:
       in the Worker.
 
 ### Security / hygiene
-- [ ] **Refresh `security.txt` `Expires` every 3 months** (calendar reminder needed —
-      not yet created). Each refresh sets the date a further 12 months out, so we
-      touch it 4x/year and it is never near expiry. RFC 9116 wants under a year;
-      annual renewal is too easy to forget, quarterly keeps a rhythm.
-      Field lives in `webservice/src/securitytxt.js`. Requires a deploy to take
-      effect. Next due: **2026-12-05** (set `Expires` to 2027-12-05).
-      Same treatment needed on other CSA properties — riskrubric.ai is currently
-      2050-01-01, cloudsecurityalliance.org expires 2027-01-01.
-- [ ] Secrets (DKIM private key, verification API token) are stored as **plaintext
-      Worker vars**. Rotate and move to `wrangler secret put`.
+- [x] **Refresh `security.txt` `Expires` every 3 months.** Recurring calendar
+      reminder created 2026-09-05, first firing 2026-12-07. Each refresh sets the
+      date a further 12 months out, so we touch it 4x/year and it is never near
+      expiry. RFC 9116 wants under a year; annual renewal is too easy to forget.
+      Field lives in `webservice/src/securitytxt.js`; requires a deploy to take
+      effect (see `DEPLOY.md`). Currently 2027-09-05.
+- [ ] Apply the same treatment to other CSA properties — riskrubric.ai is
+      currently 2050-01-01 (non-conformant), cloudsecurityalliance.org expires
+      2027-01-01. Both are outside this repo.
+- [x] **Secrets removed from `wrangler.toml` entirely** (2026-09-05). `DKIM_*` and
+      `API_*_VERIFICATION` were plaintext Worker vars; nothing in the bundle reads
+      them any more, so they were deleted rather than migrated. The config now holds
+      no secret material.
+      Context: the DKIM signing key for this domain had been publicly disclosed since
+      January 2023 in a fork of this repo that committed `wrangler.toml` before
+      `.gitignore` covered it. The `mailchannels._domainkey.webfinger.io` DNS record
+      has been deleted, so the disclosed key can no longer authenticate anything, and
+      `relay.mailchannels.net` was dropped from SPF. Mail now goes solely via Google
+      Workspace under the `google` selector.
+- [ ] If a secret is ever needed again, use `wrangler secret put` — never
+      `[env.production.vars]`, which is a plaintext file that can be committed.
 - [ ] Code relies on **implicit globals / non-strict mode** (see CLAUDE.md). The
       rewrite should use explicit declarations / ES modules.
-- [ ] Remove leftover debug markers (e.g. `+ "1234"` appended to error pages).
+- [ ] Remove leftover debug markers (e.g. `+ "1234"` in `logicConfirmation.js`).
+      Not currently shipped — that module is no longer imported by `index.js` since
+      signups closed — but it should go in the rewrite.
