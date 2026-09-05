@@ -44,6 +44,14 @@ Evaluated repositioning webfinger.io toward the AI-agent ecosystem. Declined:
       in the Worker.
 
 ### Security / hygiene
+- [ ] **Refresh `security.txt` `Expires` every 3 months** (calendar reminder needed —
+      not yet created). Each refresh sets the date a further 12 months out, so we
+      touch it 4x/year and it is never near expiry. RFC 9116 wants under a year;
+      annual renewal is too easy to forget, quarterly keeps a rhythm.
+      Field lives in `webservice/src/securitytxt.js`. Requires a deploy to take
+      effect. Next due: **2026-12-05** (set `Expires` to 2027-12-05).
+      Same treatment needed on other CSA properties — riskrubric.ai is currently
+      2050-01-01, cloudsecurityalliance.org expires 2027-01-01.
 - [ ] Secrets (DKIM private key, verification API token) are stored as **plaintext
       Worker vars**. Rotate and move to `wrangler secret put`.
 - [ ] Code relies on **implicit globals / non-strict mode** (see CLAUDE.md). The
