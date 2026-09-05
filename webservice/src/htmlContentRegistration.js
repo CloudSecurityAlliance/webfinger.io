@@ -209,10 +209,6 @@ export function gethtmlContentRegistration(status, data) {
 
 htmlContent["registration"] = `
 
-    <form action="https://` + globalDomain + `/apiv1/processing" method="post">
-
-    
-    
     <p><strong>webfinger.io</strong> is a public WebFinger service that maps an email address to a Mastodon ID,
     so people can find you by your email address and see that the link is trustworthy.</p>
 
@@ -222,51 +218,8 @@ htmlContent["registration"] = `
     <a href="https://github.com/cloudsecurityalliance/webfinger.io/blob/main/docs.webfinger.io/social-verification-retired.md">the write-up</a>
     for why.</p>
 
-    <label for="mastodon_id">Mastodon ID (signups turned off):</label>
-    <input type="text" id="mastodon_id" name="mastodon_id" placeholder="@username@mastodon.server or mastodon.server/@username" disabled>
-    
-    <!-- TEMPORARILY DISABLED: social-media verification backend is down (see issue #5).
-         To re-enable, restore the original label text and remove the "disabled" attribute.
-         Original: Twitter ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://twitter.com/settings/profile">"Profile"</a>) -->
-    <label for="twitter_id">Twitter ID (temporarily unavailable):</label>
-    <input type="text" id="twitter_id" name="twitter_id" placeholder="twitter username" disabled>
-
-    <!-- TEMPORARILY DISABLED: social-media verification backend is down (see issue #5).
-         To re-enable, restore the original label text and remove the "disabled" attribute.
-         Original: GitHub ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://github.com/settings/profile">"Bio"</a>) -->
-    <label for="github_id">GitHub ID (temporarily unavailable):</label>
-    <input type="text" id="github_id" name="github_id" placeholder="github username" disabled>
-
-    <!-- TEMPORARILY DISABLED: social-media verification backend is down (see issue #5).
-         To re-enable, restore the original label text and remove the "disabled" attribute.
-         Original: Reddit ID (verify by listing your Mastodon ID in your <a target="_blank" href="https://www.reddit.com/settings/profile">"About"</a>) -->
-    <label for="reddit_id">Reddit ID (temporarily unavailable):</label>
-    <input type="text" id="reddit_id" name="reddit_id" placeholder="reddit username" disabled>
-
-    <!-- TEMPORARILY DISABLED: email sending is down (MailChannels free Workers tier retired; see issue #5).
-         To re-enable, restore the original label text and remove the "disabled" attribute.
-         Original: Email address (verify by clicking a link we'll email you) -->
-    <label for="email_address">Email address (temporarily unavailable):</label>
-    <input type="email" id="email_address" name="email_address" placeholder="username@example.org" disabled>
-
-    <input type="submit" value="submit" name="submit" disabled>
-
-    <p>Click below to unsubscribe and block all email from us, or delete your email record:</p>
-    
-    <!-- TEMPORARILY DISABLED: unsubscribe requires an emailed confirmation link, and email sending is down (see issue #5).
-         Users are directed to admin@webfinger.io in the meantime. Remove "disabled" to re-enable. -->
-    <input type="radio" id="block_email" name="action" value="block_email" disabled>
-    <label for="block_email" class="label-inline">Unsubscribe and block all future email (temporarily unavailable &mdash; email admin@webfinger.io)</label><br>
-    
-    <!--
-    <input type="radio" id="delete_record" name="action" value="delete_record">
-    <label for="delete_record" class="label-inline">Delete the record for my email address</label><br>
-    -->
-    
-    <input type="radio" id="link_mastodon_id" name="action" value="link_mastodon_id" checked="checked" disabled>
-    <label for="link_mastodon_id" class="label-inline">Link to my Mastodon ID</label><br>
-
-    </form>
+    <p>To have an existing record removed, or to stop all email from us, contact
+    <a href="mailto:admin@webfinger.io">admin@webfinger.io</a>.</p>
     
     <h2>Using webfinger.io with a Mastodon client</h2>
 
